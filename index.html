@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+
+<head>
+	<title>Parental Roles</title>
+	<link type="text/css" rel="stylesheet" href="index.css">
+	<link type="text/css" rel="stylesheet" href="bootstrap.min.css">
+	<link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700" rel="stylesheet">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+	<link href="https://fonts.googleapis.com/css?family=Frank+Ruhl+Libre:400,700" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=PT+Serif" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Frank+Ruhl+Libre" rel="stylesheet">
+	<link href="nouislider.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+
+	<div class="container">
+		<div class="jumbotron">
+			<h1>RSA encryption scheme </h1>
+			<p>&nbsp &nbsp &nbsp &nbsp This is an instructive implemention of the RSA encryption scheme. </p>
+			<p> Parameters: </p>
+			<p>
+			p=<input type="number" id="pvalue" value="3">
+
+			q=<input type="number" id="qvalue" value="11">
+			</p>
+
+			<button onclick="myFunction()">Use these p and q</button>
+			<p id="nOut" onchange="takingPrimes()"> </p>
+			Your private key is
+			<p id="dOut"></p>
+
+			Your public key is
+			<p id="eOut"></p>
+			<script>
+					var x = document.getElementById("pvalue").value;
+					var y = document.getElementById("qvalue").value;
+					var pair=EEA(x,y);
+					document.getElementById("nOut").innerHTML = 'n='+x*y;
+
+					document.getElementById("dOut").innerHTML = pair[0];
+					document.getElementById("eOut").innerHTML = pair[1];
+				function takingPrimes(){
+					var x = document.getElementById("pvalue").value;
+					var y = document.getElementById("qvalue").value;
+					document.getElementById("nOut").innerHTML = 'n='+x*y;
+					var pair=EEA(x,y);
+					document.getElementById("dOut").innerHTML = pair[0];
+					document.getElementById("eOut").innerHTML = pair[1];
+				}
+				function EEA(p,q){
+					var n= (p-1)*(q-1);
+					var e=3;
+					var d=10;
+
+
+					return [d,e];
+
+				}
+			</script>
+		</div>
+	<div>
+			<p> Input message you wish to encrypt.</p>
+		<input type="text" id="myText" value=""> </p>
+
+			<button onclick="myFunction()">Encrypt</button>
+
+			<p> Convert text to ASCII </p>
+			<p id="conversion"></p>
+
+			<p> Raise ASCII to public key e</p>
+			<p id="asciiToPublicKey"></p>
+			<script>
+				function myFunction() {
+					var d = document.getElementById("dOut").value;
+					var x = document.getElementById("myText").value;
+					var ascii_x=new Array(x.length);
+					var ascii_to_pub=new Array(x.length);
+					for(var i=0;i<x.length;i++){
+						ascii_x[i]=x.charCodeAt(i);
+						ascii_to_pub[i]=Math.pow(ascii_x[i],d);
+					}
+					document.getElementById("conversion").innerHTML = ascii_x;
+					document.getElementById("asciiToPublicKey").innerHTML = ascii_to_pub;
+
+				}
+			</script>
+		</div>
+
+
+</body>
+
+
+</html>

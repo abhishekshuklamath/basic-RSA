@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>RSA encryption</title>
+</head>
+<body>
+<h1> RSA cryptosystem </h1>
+<form>
+p:<input type="number" name="p" id="pvalue" value="7"> <br>
+q:<input type="number" name="q" id="qvalue" value="13"> <br>
+</form>
+
+<button onclick="keygen()">Generate keys</button>
+
+<h1>Parameters</h1>
+<div>
+n:<p id="totalmod"></p>
+
+Public Key: <p id="pubkey"></p>
+
+Private Key:<p id="prvkey"></p>
+
+
+    Conversion chart:
+</div>
+
+<script type="text/javascript" src="EEA.js"></script>
+
+<script>
+    function keygen(){
+    var p=document.getElementById("pvalue").value;
+    var q=document.getElementById("qvalue").value;
+    var n=p*q;
+    var phin=(p-1)*(q-1);
+
+    var e=3;
+    var output= EEA(phin,e);
+    while(output[0]!=1){
+        e=Math.floor(Math.random()*(phin-1)+1);
+        output=EEA(phin,e);
+    }
+
+    var d=output[2];
+    while (d<0){
+        d += phin;
+    }
+    document.getElementById("totalmod").innerHTML=n;
+    document.getElementById("pubkey").innerHTML=e;
+    document.getElementById("prvkey").innerHTML=d;
+
+    }
+</script>
+
+
+<div>
+    <p> Input message you wish to encrypt.</p>
+    <p><input type="text" id="myText" value=""> </p>
+
+
+    <button onclick="EncryptFunction()">Encrypt</button>
+
+
+
+    <script type="text/javascript" src="encrypt.js"></script>
+    <script>
+        function EncryptFunction() {
+            var ee = document.getElementById("pubkey").innerHTML;
+            var nn= document.getElementById("totalmod").innerHTML;
+            var xx = document.getElementById("myText").value;
+           // document.getElementById("msg").innerHTML=[x[0],x[1],x[2]];
+            document.getElementById("Encrypted_message").innerHTML = EncryptMessage(ee,nn,xx);
+            console.log("html output",ee,nn,EncryptMessage(ee,nn,xx));
+        }
+    </script>
+    <p> Encrypted message</p>
+    <p id="Encrypted_message"></p>
+
+</div>
+
+
+<h1> Decryption</h1>
+<p> Enter your private key </p>
+<form>
+    Private Key:<input type="number" id="privkey"> <br>
+    n:<input type="number" id="totaln"> <br>
+</form>
+<div>
+    <p> Input message you wish to decrypt.</p>
+    <p><input type="text" id="decryptText"> </p>
+
+    <button onclick="DecryptFunction()">Decrypt</button>
+
+    <p> Raise ASCII to private key e</p>
+    <p id="asciiToMessage"></p>
+    <script type="text/javascript" src="encrypt.js"></script>
+    <script>
+        function DecryptFunction() {
+            var d = document.getElementById("privkey").value;
+            var n= document.getElementById("totaln").value;
+           var x = document.getElementById("decryptText").value;
+            //document.getElementById("totaln").innerHTML = n;
+            document.getElementById("asciiToMessage").innerHTML =DecryptMessage(d,n,x);
+        }
+    </script>
+</div>
+</body>
+</html>
