@@ -19,7 +19,6 @@
 
 <button onclick="keygen()">Generate keys</button>
 
-<h1>Parameters</h1>
 
 
 <head>
@@ -94,6 +93,12 @@
 
 <h1>Encryption</h1>
 <div>
+    <p> Enter public key and n:</p>
+    <form>
+        Public Key:<input type="number" id="publickey"> <br>
+        n:<input type="number" id="encryptTotaln"> <br>
+    </form>
+
     <p> Input message you wish to encrypt.</p>
     <p><input type="text" id="myText" value=""> </p>
 
@@ -105,8 +110,8 @@
     <script type="text/javascript" src="encrypt.js"></script>
     <script>
         function EncryptFunction() {
-            var ee = document.getElementById("pubkey").innerHTML;
-            var nn= document.getElementById("totalmod").innerHTML;
+            var ee = document.getElementById("publickey").value;
+            var nn= document.getElementById("encryptTotaln").value;
             var xx = document.getElementById("myText").value;
             // document.getElementById("msg").innerHTML=[x[0],x[1],x[2]];
             document.getElementById("Encrypted_message").innerHTML = EncryptMessage(ee,nn,xx);
@@ -141,13 +146,21 @@
     <button onclick="DecryptFunction()">Decrypt</button>
 
     <p> Decrypted message</p>
-    <body>
+
     <table width="300" height="100">
         <tr>
             <td>   <p id="asciiToMessage"></p> </td>
         </tr>
     </table>
-    </body>
+
+
+
+
+
+
+
+
+
 
 
     <script type="text/javascript" src="encrypt.js"></script>
