@@ -51,6 +51,7 @@ function EncryptMessage(e,n,x){
     var ascii_to_pub=new Array(x.length);
     var e=parseInt(e);
     var n=parseInt(n);
+    var x = x.toLowerCase();
     for(var i=0;i<x.length;i++){
         ascii_to_pub[i]=ModExp(dict[x[i]],e,n);
         //console.log("here",dict[x[i]],e,n,ModExp(dict[x[i]],e,n));

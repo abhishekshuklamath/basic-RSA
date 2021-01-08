@@ -1,58 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
+<body style="background-color:powderblue;">
+
 <head>
     <meta charset="UTF-8">
+
     <title>RSA encryption</title>
+
 </head>
-<body>
-<h1> RSA cryptosystem </h1>
+
+
+<h1 style="text-align:center;">RSA cryptosystem</h1>
+
 <form>
-p:<input type="number" name="p" id="pvalue" value="7"> <br>
-q:<input type="number" name="q" id="qvalue" value="13"> <br>
+    p:<input type="number" name="p" id="pvalue" value="7"> <br>
+    q:<input type="number" name="q" id="qvalue" value="13"> <br>
 </form>
 
 <button onclick="keygen()">Generate keys</button>
 
 <h1>Parameters</h1>
+
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        table.center {
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+</head>
+
+<body>
+<table class="center" width="300" height="100">
+    <tr>
+        <td> n </td>
+        <td> Public key</td>
+        <td> Private key</td>
+    </tr>
+
+    <tr>
+        <td><p id="totalmod"></p></td>
+        <td><p id="pubkey"></p> </td>
+        <td><p id="prvkey"></p> </td>
+    </tr>
+</table>
+</body>
+<!--
 <div>
-n:<p id="totalmod"></p>
 
-Public Key: <p id="pubkey"></p>
+   n:<p id="totalmod"></p>
 
-Private Key:<p id="prvkey"></p>
+   Public Key: <p id="pubkey"></p>
+
+   Private Key:<p id="prvkey"></p>
 
 
-    Conversion chart:
-</div>
+   Conversion chart:
 
+</div>  -->
 <script type="text/javascript" src="EEA.js"></script>
 
 <script>
     function keygen(){
-    var p=document.getElementById("pvalue").value;
-    var q=document.getElementById("qvalue").value;
-    var n=p*q;
-    var phin=(p-1)*(q-1);
+        var p=document.getElementById("pvalue").value;
+        var q=document.getElementById("qvalue").value;
+        var n=p*q;
+        var phin=(p-1)*(q-1);
 
-    var e=3;
-    var output= EEA(phin,e);
-    while(output[0]!=1){
-        e=Math.floor(Math.random()*(phin-1)+1);
-        output=EEA(phin,e);
-    }
+        var e=3;
+        var output= EEA(phin,e);
+        while(output[0]!=1){
+            e=Math.floor(Math.random()*(phin-1)+1);
+            output=EEA(phin,e);
+        }
 
-    var d=output[2];
-    while (d<0){
-        d += phin;
-    }
-    document.getElementById("totalmod").innerHTML=n;
-    document.getElementById("pubkey").innerHTML=e;
-    document.getElementById("prvkey").innerHTML=d;
+        var d=output[2];
+        while (d<0){
+            d += phin;
+        }
+        document.getElementById("totalmod").innerHTML=n;
+        document.getElementById("pubkey").innerHTML=e;
+        document.getElementById("prvkey").innerHTML=d;
 
     }
 </script>
 
-
+<h1>Encryption</h1>
 <div>
     <p> Input message you wish to encrypt.</p>
     <p><input type="text" id="myText" value=""> </p>
@@ -68,19 +108,28 @@ Private Key:<p id="prvkey"></p>
             var ee = document.getElementById("pubkey").innerHTML;
             var nn= document.getElementById("totalmod").innerHTML;
             var xx = document.getElementById("myText").value;
-           // document.getElementById("msg").innerHTML=[x[0],x[1],x[2]];
+            // document.getElementById("msg").innerHTML=[x[0],x[1],x[2]];
             document.getElementById("Encrypted_message").innerHTML = EncryptMessage(ee,nn,xx);
             console.log("html output",ee,nn,EncryptMessage(ee,nn,xx));
         }
     </script>
-    <p> Encrypted message</p>
+<p>Encrypted message:</p>
+    <body>
+    <table width="300" height="100">
+        <tr>
+            <td>  <p id="Encrypted_message"></p> </td>
+        </tr>
+    </table>
+    </body>
+
+  <!--  <p> Encrypted message</p>
     <p id="Encrypted_message"></p>
+    -->
 
 </div>
 
-
-<h1> Decryption</h1>
-<p> Enter your private key </p>
+<h1>Decryption</h1>
+<p> Enter your private key and n:</p>
 <form>
     Private Key:<input type="number" id="privkey"> <br>
     n:<input type="number" id="totaln"> <br>
@@ -91,14 +140,22 @@ Private Key:<p id="prvkey"></p>
 
     <button onclick="DecryptFunction()">Decrypt</button>
 
-    <p> Raise ASCII to private key e</p>
-    <p id="asciiToMessage"></p>
+    <p> Decrypted message</p>
+    <body>
+    <table width="300" height="100">
+        <tr>
+            <td>   <p id="asciiToMessage"></p> </td>
+        </tr>
+    </table>
+    </body>
+
+
     <script type="text/javascript" src="encrypt.js"></script>
     <script>
         function DecryptFunction() {
             var d = document.getElementById("privkey").value;
             var n= document.getElementById("totaln").value;
-           var x = document.getElementById("decryptText").value;
+            var x = document.getElementById("decryptText").value;
             //document.getElementById("totaln").innerHTML = n;
             document.getElementById("asciiToMessage").innerHTML =DecryptMessage(d,n,x);
         }
